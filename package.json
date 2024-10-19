@@ -1,0 +1,39 @@
+{
+  "name": "sse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "rimraf ./dist && tsc -p .",
+    "prepare": "npm run gcp-build",
+    "pretest": "npm run gcp-build",
+    "test": "c8 mocha -p -j 2 test/*.test.js --exit",
+    "lint": "gts lint",
+    "deploy-app": "gcloud app deploy app.yaml",
+    "deploy": "gcloud app deploy app.flexible.yaml",
+    "compile": "tsc -p .",
+    "fix": "gts fix",
+    "gcp-build": "prisma generate && prisma migrate deploy && prisma db seed && npm run build"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "express": "^4.21.1",
+    "ts-express-sse": "^1.0.3"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.7.6",
+    "prisma": "^5.21.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3"
+  }
+}
